@@ -25,27 +25,59 @@ const QC_RULES = [
   }
 ];
 
+// 🛡️ 2. THE EXCEPTION SHIELD 🛡️
+// If a card name starts with any of these, it gets ignored.
+const IGNORE_NAMES = [
+  "---", 
+  "***", 
+  "label:", 
+  "[label]"
+];
 
-// 🚀 2. THE POWER-UP INITIALIZATION 🚀
+// If a card has ANY of these exact labels, it gets ignored.
+const IGNORE_LABELS = [
+  "Keep On Top",
+  "No QC"
+];
+
+
+// 🚀 3. THE POWER-UP INITIALIZATION 🚀
 window.TrelloPowerUp.initialize({
   
   // This tells Trello we want to put Badges on the front of the cards
   'card-badges': function(t, options) {
     
-    // Ask Trello for the current List Name, the Board's Custom Field definitions, and the Card's actual data
+    // 🚨 Ask Trello for the current List Name, Custom Fields, AND the Card's Name/Labels
     return Promise.all([
       t.list('name'),
       t.board('customFields'),
-      t.card('customFieldItems')
+      t.card('name', 'customFieldItems', 'labels') 
     ])
     .then(function(results) {
       const currentList = results[0].name;
       const boardCustomFields = results[1].customFields || [];
-      const cardCustomFields = results[2].customFieldItems || [];
+      const cardData = results[2];
+      
+      const cardName = cardData.name || "";
+      const cardCustomFields = cardData.customFieldItems || [];
+      const cardLabels = cardData.labels || [];
+
+      // --- 🛡️ RUN THE SHIELD CHECK FIRST 🛡️ ---
+      // 1. Check if the card name starts with one of our ignored words
+      const isNameIgnored = IGNORE_NAMES.some(ignoreStr => cardName.toLowerCase().startsWith(ignoreStr.toLowerCase()));
+      
+      // 2. Check if the card has a label from our IGNORE_LABELS list
+      const hasIgnoreLabel = cardLabels.some(label => IGNORE_LABELS.includes(label.name));
+
+      // If either of those are true, abort the inspection and return an empty card!
+      if (isNameIgnored || hasIgnoreLabel) {
+        return []; 
+      }
+      // ------------------------------------------
 
       let missingFields = [];
 
-      // 🔍 3. THE INSPECTOR 🔍
+      // 🔍 4. THE INSPECTOR 🔍
       // Loop through our Rulebook to see if the current list triggers any rules
       QC_RULES.forEach(rule => {
         if (currentList.includes(rule.listNameContains)) {
@@ -69,7 +101,7 @@ window.TrelloPowerUp.initialize({
         }
       });
 
-      // 🚨 4. THE SCREAMING BADGE 🚨
+      // 🚨 5. THE SCREAMING BADGE 🚨
       // If we found missing fields, throw up the red flag!
       if (missingFields.length > 0) {
         return [{
