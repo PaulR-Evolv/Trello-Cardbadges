@@ -3,6 +3,10 @@
 // 🛑 1. THE RULEBOOK 🛑
 // Add as many rules as you want here. It uses '.includes' so emojis won't break it!
 const QC_RULES = [
+   {
+    listNameContains: "Clip Collection", 
+    requiredFields: ["Video ID"]
+  },
   {
     listNameContains: "Script Writing", 
     requiredFields: ["Writer"]
