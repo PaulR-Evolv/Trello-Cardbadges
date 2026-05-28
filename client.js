@@ -3,25 +3,47 @@
 // 🛑 1. THE RULEBOOK 🛑
 // Add as many rules as you want here. It uses '.includes' so emojis won't break it!
 const QC_RULES = [
-   {
+  {
+    listNameContains: "Clip Review", 
+    requiredFields: ["Video ID"],
+    badgePrefix: "💡 Kindly fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Clips Finished", 
+    requiredFields: ["Video ID"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
     listNameContains: "Clip Collection", 
-    requiredFields: ["Video ID"]
+    requiredFields: ["Video ID"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
   },
   {
     listNameContains: "Script Writing", 
-    requiredFields: ["Writer"]
+    requiredFields: ["Writer"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
   },
   {
     listNameContains: "Transcription", 
-    requiredFields: ["Transcriber"]
+    requiredFields: ["Transcriber"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
   },
   {
     listNameContains: "Video Editing", 
-    requiredFields: ["Editor"]
+    requiredFields: ["Editor"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
   },
   {
     listNameContains: "Video Review", 
-    requiredFields: ["Editor", "Video Reviewer"] // You can require multiple fields at once!
+    requiredFields: ["Editor", "Video Reviewer"], // You can require multiple fields at once!
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
   }
 ];
 
@@ -75,12 +97,14 @@ window.TrelloPowerUp.initialize({
       }
       // ------------------------------------------
 
-      let missingFields = [];
+      let finalBadges = [];
 
       // 🔍 4. THE INSPECTOR 🔍
       // Loop through our Rulebook to see if the current list triggers any rules
       QC_RULES.forEach(rule => {
         if (currentList.includes(rule.listNameContains)) {
+          
+          let missingFieldsForThisRule = [];
           
           // A rule was triggered! Now check if they filled out the required fields.
           rule.requiredFields.forEach(requiredFieldName => {
@@ -94,24 +118,24 @@ window.TrelloPowerUp.initialize({
               
               // If it doesn't exist, or the value is empty, flag it!
               if (!cardHasField || (!cardHasField.value && !cardHasField.idValue)) {
-                missingFields.push(requiredFieldName);
+                missingFieldsForThisRule.push(requiredFieldName);
               }
             }
           });
+
+          // 🚨 5. BUILD THE CUSTOM BADGE 🚨
+          // If this specific rule found missing fields, build its custom badge!
+          if (missingFieldsForThisRule.length > 0) {
+            finalBadges.push({
+              text: rule.badgePrefix + missingFieldsForThisRule.join(', '),
+              color: rule.badgeColor 
+            });
+          }
         }
       });
 
-      // 🚨 5. THE SCREAMING BADGE 🚨
-      // If we found missing fields, throw up the red flag!
-      if (missingFields.length > 0) {
-        return [{
-          text: '⚠️ MISSING: ' + missingFields.join(', '),
-          color: 'red' 
-        }];
-      }
-
-      // If everything is perfect, return an empty array (no badge!)
-      return [];
+      // Return all triggered badges (Trello will render them side-by-side if there are multiple)
+      return finalBadges;
     });
   }
 });
