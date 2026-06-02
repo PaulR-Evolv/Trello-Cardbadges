@@ -6,7 +6,7 @@ const QC_RULES = [
   {
     listNameContains: "Clip Review", 
     requiredFields: ["Clip Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Kindly fill up: ",
+    badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   },
   {
