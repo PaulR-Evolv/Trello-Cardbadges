@@ -100,15 +100,17 @@ window.TrelloPowerUp.initialize({
   
   'card-badges': function(t, options) {
     
+    // 🚨 NEW: Added .catch() safety nets so Trello doesn't crash the script!
     return Promise.all([
-      t.list('name'),
-      t.board('customFields'),
-      t.card('name', 'customFieldItems', 'labels') 
+      t.list('name').catch(() => null),
+      t.board('customFields').catch(() => null),
+      t.card('name', 'customFieldItems', 'labels').catch(() => null) 
     ])
     .then(function(results) {
-      const currentList = results[0].name;
-      const boardCustomFields = results[1].customFields || [];
-      const cardData = results[2];
+      // 🚨 NEW: Added fallback empty strings/arrays just in case Trello returns null
+      const currentList = (results[0] && results[0].name) ? results[0].name : "";
+      const boardCustomFields = (results[1] && results[1].customFields) ? results[1].customFields : [];
+      const cardData = results[2] || {};
       
       const cardName = cardData.name || "";
       const cardCustomFields = cardData.customFieldItems || [];
@@ -128,7 +130,6 @@ window.TrelloPowerUp.initialize({
       // 🔍 4. THE INSPECTOR 🔍
       QC_RULES.forEach(rule => {
         
-        // 🚨 NEW LOGIC: Check if the rule is Universal OR if it matches the current list
         if (rule.applyToAll || (rule.listNameContains && currentList.includes(rule.listNameContains))) {
           
           let missingFieldsForThisRule = [];
