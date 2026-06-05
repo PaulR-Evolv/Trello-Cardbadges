@@ -45,7 +45,7 @@ const QC_RULES = [
   // --- 🔴 RED MISSING BADGES ---
   {
     listNameContains: "Clips Finished", 
-    requiredFields: ["Clip Review Time (Decimal Hour)"], // Confirm with David Trigger Point
+    requiredFields: ["Clip Review Time (Decimal Hour)"], 
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
   },
@@ -67,17 +67,85 @@ const QC_RULES = [
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
   },
+
+  // --- 🎬 13 NEW HIGH-SPECIFICATION UPDATES (Strict String Matching) ---
   {
-    listNameContains: "Video Editing", 
+    listNameContains: "Ready for VO",
+    requiredFields: ["Word Count"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Editing TUF",
     requiredFields: ["Editor"],
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
   },
   {
-    listNameContains: "Video Review", 
-    requiredFields: ["Editor", "Video Reviewer"], 
+    listNameContains: "Video Editing THF",
+    requiredFields: ["Editor"],
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Editing NKS",
+    requiredFields: ["Editor"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Review TUF",
+    requiredFields: ["Video Reviewer"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Review THF",
+    requiredFields: ["Video Reviewer"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Review NKS",
+    requiredFields: ["Video Reviewer"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Video Review TUF",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review THF",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review NKS",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review TUF",
+    requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review THF",
+    requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review NKS",
+    requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
   }
 ];
 
@@ -100,21 +168,23 @@ window.TrelloPowerUp.initialize({
   
   'card-badges': function(t, options) {
     
-    // 🚨 NEW: Added .catch() safety nets so Trello doesn't crash the script!
     return Promise.all([
       t.list('name').catch(() => null),
       t.board('customFields').catch(() => null),
       t.card('name', 'customFieldItems', 'labels').catch(() => null) 
     ])
     .then(function(results) {
-      // 🚨 NEW: Added fallback empty strings/arrays just in case Trello returns null
       const currentList = (results[0] && results[0].name) ? results[0].name : "";
-      const boardCustomFields = (results[1] && results[1].customFields) ? results[1].customFields : [];
-      const cardData = results[2] || {};
       
+      const boardData = results[1] || {};
+      const boardCustomFields = Array.isArray(boardData) ? boardData : (boardData.customFields || []);
+      
+      const cardData = results[2] || {};
       const cardName = cardData.name || "";
-      const cardCustomFields = cardData.customFieldItems || [];
       const cardLabels = cardData.labels || [];
+      
+      const cardFieldData = cardData.customFieldItems || [];
+      const cardCustomFields = Array.isArray(cardFieldData) ? cardFieldData : [];
 
       // --- 🛡️ RUN THE SHIELD CHECK FIRST 🛡️ ---
       const isNameIgnored = IGNORE_NAMES.some(ignoreStr => cardName.toLowerCase().startsWith(ignoreStr.toLowerCase()));
@@ -157,6 +227,10 @@ window.TrelloPowerUp.initialize({
       });
 
       return finalBadges;
+    })
+    .catch(err => {
+      console.error("QC Gatekeeper Crash Error:", err);
+      return [];
     });
   }
 });
