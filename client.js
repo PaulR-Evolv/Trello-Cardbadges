@@ -68,7 +68,7 @@ const QC_RULES = [
     badgeColor: "red"
   },
 
-  // --- 🎬 13 NEW HIGH-SPECIFICATION UPDATES (Strict String Matching) ---
+  // --- 🎬 SPECIFIC CHANNEL BREAKDOWNS ---
   {
     listNameContains: "Ready for VO",
     requiredFields: ["Word Count"],
@@ -144,6 +144,14 @@ const QC_RULES = [
   {
     listNameContains: "Video Review NKS",
     requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  
+  // --- 🆕 NEWEST ADDITIONS ---
+  {
+    listNameContains: "Video Editing Revision",
+    requiredFields: ["Video Review Time (Decimal Hour)", "Final Video Time (Decimal Min)"],
     badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   }
