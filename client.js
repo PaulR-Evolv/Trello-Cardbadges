@@ -41,6 +41,12 @@ const QC_RULES = [
     badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   },
+  {
+    listNameContains: "Final Review", 
+    requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
 
   // --- 🔴 RED MISSING BADGES ---
   {
@@ -64,6 +70,18 @@ const QC_RULES = [
   {
     listNameContains: "Transcription", 
     requiredFields: ["Transcriber"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Good for Posting", 
+    requiredFields: ["Final Video Time (Decimal Min)"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Videos Scheduled for Posting but Holding for Thumbnail", 
+    requiredFields: ["Final Video Time (Decimal Min)"],
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
   },
@@ -129,29 +147,29 @@ const QC_RULES = [
     badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   },
-  {
-    listNameContains: "Video Review TUF",
-    requiredFields: ["Final Video Time (Decimal Min)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review THF",
-    requiredFields: ["Final Video Time (Decimal Min)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review NKS",
-    requiredFields: ["Final Video Time (Decimal Min)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
   
-  // --- 🆕 NEWEST ADDITIONS ---
+  // --- 🆕 ADVANCED INTEGRATIONS ---
+  {
+    listNameContains: "Final Review",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Good for Posting",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
+  {
+    listNameContains: "Videos Scheduled for Posting but Holding for Thumbnail",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "⚠️ MISSING: ",
+    badgeColor: "red"
+  },
   {
     listNameContains: "Video Editing Revision",
-    requiredFields: ["Video Review Time (Decimal Hour)", "Final Video Time (Decimal Min)"],
+    requiredFields: ["Video Review Time (Decimal Hour)"],
     badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   }
