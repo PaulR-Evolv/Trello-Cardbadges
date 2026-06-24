@@ -2,7 +2,10 @@
 
 // 🛑 1. THE RULEBOOK 🛑
 const QC_RULES = [
-  // --- 🌍 UNIVERSAL RULES (Applies to EVERY list on the board) ---
+  
+  // ==========================================
+  // 🌍 UNIVERSAL RULES
+  // ==========================================
   {
     applyToAll: true, 
     requiredFields: ["Video ID"],
@@ -10,7 +13,9 @@ const QC_RULES = [
     badgeColor: "red"
   },
 
-  // --- 🟡 YELLOW REMINDER BADGES ---
+  // ==========================================
+  // 🟡 YELLOW REMINDER BADGES
+  // ==========================================
   {
     listNameContains: "Clip Review", 
     requiredFields: ["Clip Review Time (Decimal Hour)"],
@@ -47,8 +52,34 @@ const QC_RULES = [
     badgePrefix: "💡 Fill up: ",
     badgeColor: "yellow"
   },
+  {
+    listNameContains: "Video Review TUF",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review THF",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Review NKS",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
+  {
+    listNameContains: "Video Editing Revision",
+    requiredFields: ["Video Review Time (Decimal Hour)"],
+    badgePrefix: "💡 Fill up: ",
+    badgeColor: "yellow"
+  },
 
-  // --- 🔴 RED MISSING BADGES ---
+  // ==========================================
+  // 🔴 RED MISSING BADGES
+  // ==========================================
   {
     listNameContains: "Clips Finished", 
     requiredFields: ["Clip Review Time (Decimal Hour)"], 
@@ -85,8 +116,6 @@ const QC_RULES = [
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
   },
-
-  // --- 🎬 SPECIFIC CHANNEL BREAKDOWNS ---
   {
     listNameContains: "Ready for VO",
     requiredFields: ["Word Count"],
@@ -130,26 +159,6 @@ const QC_RULES = [
     badgeColor: "red"
   },
   {
-    listNameContains: "Video Review TUF",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review THF",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review NKS",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  
-  // --- 🆕 ADVANCED INTEGRATIONS ---
-  {
     listNameContains: "Final Review",
     requiredFields: ["Video Review Time (Decimal Hour)"],
     badgePrefix: "⚠️ MISSING: ",
@@ -166,12 +175,6 @@ const QC_RULES = [
     requiredFields: ["Video Review Time (Decimal Hour)"],
     badgePrefix: "⚠️ MISSING: ",
     badgeColor: "red"
-  },
-  {
-    listNameContains: "Video Editing Revision",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
   }
 ];
 
