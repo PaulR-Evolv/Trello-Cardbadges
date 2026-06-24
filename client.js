@@ -53,24 +53,6 @@ const QC_RULES = [
     badgeColor: "yellow"
   },
   {
-    listNameContains: "Video Review TUF",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review THF",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
-    listNameContains: "Video Review NKS",
-    requiredFields: ["Video Review Time (Decimal Hour)"],
-    badgePrefix: "💡 Fill up: ",
-    badgeColor: "yellow"
-  },
-  {
     listNameContains: "Video Editing Revision",
     requiredFields: ["Video Review Time (Decimal Hour)"],
     badgePrefix: "💡 Fill up: ",
